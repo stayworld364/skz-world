@@ -47,7 +47,7 @@ footer{text-align:center;color:#a992a4;font-size:.78rem;margin-top:28px}
 <h2>✦ Explore the games</h2>
 <div class="grid">
 <button class="game" onclick="startQuiz()"><span class="emoji">🧠</span><strong>SKZ QUIZ</strong><small>Test your Stray Kids knowledge</small></button>
-<button class="game" onclick="comingSoon('Guess the Member')"><span class="emoji">🔎</span><strong>GUESS THE MEMBER</strong><small>Find the member from clues</small></button>
+<button class="game" onclick="startGuess('Guess the Member')"><span class="emoji">🔎</span><strong>GUESS THE MEMBER</strong><small>Find the member from clues</small></button>
 <button class="game" onclick="comingSoon('Who Knows SKZ Best?')"><span class="emoji">🏆</span><strong>WHO KNOWS SKZ BEST?</strong><small>Challenge your STAY knowledge</small></button>
 <button class="game" onclick="comingSoon('Your SKZ Life')"><span class="emoji">💗</span><strong>YOUR SKZ LIFE</strong><small>Create your own fan-life story</small></button>
 <button class="game" onclick="comingSoon('Chan’s Room')"><span class="emoji">🐺</span><strong>CHAN'S ROOM</strong><small>A cozy mini-game corner</small></button>
@@ -106,6 +106,58 @@ function nextQuestion(){
  else{document.getElementById('progress').textContent='Quiz complete!';document.getElementById('question').textContent=`You got ${score} out of ${questions.length}!`;document.getElementById('answers').innerHTML='';document.getElementById('feedback').textContent='Thanks for playing, STAY!';document.getElementById('next').textContent='Play again';document.getElementById('next').onclick=startQuiz;}
 }
 function comingSoon(name){alert(name+' is coming soon! ♡');}
+const guessQuestions = [
+ {q:"I am the leader of Stray Kids. Who am I?",a:["Lee Know","Bang Chan","Felix","Seungmin"],correct:"Bang Chan"},
+ {q:"I am known for my dancing and artistic talent. Who am I?",a:["Hyunjin","Changbin","I.N","Han"],correct:"Hyunjin"},
+ {q:"I have a deep voice and am often called Sunshine. Who am I?",a:["Seungmin","Lee Know","Felix","Han"],correct:"Felix"}
+];
+
+let guessIndex=0,guessScore=0;
+
+function startGuess(){
+ let box=document.getElementById('guess-game');
+ if(!box){
+  box=document.createElement('section');
+  box.id='guess-game';
+  box.className='feature';
+  document.querySelector('footer').before(box);
+ }
+ box.style.display='block';
+ guessIndex=0;
+ guessScore=0;
+ renderGuess();
+ box.scrollIntoView({behavior:'smooth'});
+}
+
+function renderGuess(){
+ const q=guessQuestions[guessIndex];
+ const box=document.getElementById('guess-game');
+ box.innerHTML='<h2>🔎 GUESS THE MEMBER ♡</h2><p>Question '+(guessIndex+1)+' of '+guessQuestions.length+'</p><h3>'+q.q+'</h3><div id="guess-answers" class="answers"></div><p id="guess-feedback"></p><button class="action" id="guess-next" style="display:none">Next →</button>';
+ q.a.forEach(name=>{
+  const b=document.createElement('button');
+  b.className='answer';
+  b.textContent=name;
+  b.onclick=()=>{
+   document.querySelectorAll('#guess-answers button').forEach(x=>x.disabled=true);
+   if(name===q.correct){
+    guessScore++;
+    document.getElementById('guess-feedback').textContent='Correct! ♡';
+   }else{
+    document.getElementById('guess-feedback').textContent='The answer was '+q.correct+' ♡';
+   }
+   document.getElementById('guess-next').style.display='inline-block';
+  };
+  document.getElementById('guess-answers').appendChild(b);
+ });
+ document.getElementById('guess-next').onclick=()=>{
+  if(guessIndex<guessQuestions.length-1){
+   guessIndex++;
+   renderGuess();
+  }else{
+   box.innerHTML='<h2>Game complete! ♡</h2><p>Your score: '+guessScore+' / '+guessQuestions.length+'</p><button class="action" onclick="startGuess()">Play again</button>';
+  }
+ };
+     }
 </script>
 </body>
 </html>
