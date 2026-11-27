@@ -65,10 +65,22 @@ footer{text-align:center;color:#a992a4;font-size:.78rem;margin-top:28px}
 <footer>Made with ♡ for STAY · Fan-made project, not affiliated with Stray Kids or JYP Entertainment.</footer>
 </div>
 <script>
-const questions=[
- {q:"How many members are in Stray Kids?",a:["6","8","9"],correct:1,why:"Stray Kids has 8 members."},
- {q:"What is the name of Stray Kids' official fandom?",a:["STAY","MOA","ONCE"],correct:0,why:"The official fandom name is STAY."},
- {q:"Which member is the leader of Stray Kids?",a:["Lee Know","Bang Chan","Felix"],correct:1,why:"Bang Chan is the leader."}
+const questions = [
+{
+q:"How many members are in Stray Kids?",
+a:["6","7","8","9"],
+correct:2
+},
+{
+q:"What is Stray Kids' official fandom name?",
+a:["ARMY","STAY","MOA","BLINK"],
+correct:1
+},
+{
+q:"Who is the leader of Stray Kids?",
+a:["Lee Know","Hyunjin","Bang Chan","Felix"],
+correct:2
+}
 ];
 let current=0,score=0,locked=false;
 function startQuiz(){document.getElementById('quiz').style.display='block';current=0;score=0;renderQuestion();document.getElementById('quiz').scrollIntoView({behavior:'smooth'});}
