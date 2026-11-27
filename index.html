@@ -62,7 +62,24 @@ footer{text-align:center;color:#a992a4;font-size:.78rem;margin-top:28px}
 <div id="feedback" aria-live="polite"></div>
 <button class="action" id="next" onclick="nextQuestion()" style="display:none">Next question →</button>
 </section>
-<footer>Made with ♡ for STAY · Fan-made project, not affiliated with Stray Kids or JYP Entertainment.</footer>
+<section class="feature" id="who-knows" style="display:none">
+  <div class="eyebrow">THE ULTIMATE STAY CHALLENGE</div>
+  <h2>WHO KNOWS SKZ BEST? ♡</h2>
+  <p>Choose your challenge!</p>
+
+  <button class="action" onclick="startMemberGame()">
+    📸 PART 01 · GUESS THE MEMBER
+  </button>
+
+  <button class="action" onclick="startSongGame()">
+    🎧 PART 02 · GUESS THE SONG
+  </button>
+
+  <button class="action" onclick="document.getElementById('who-knows').style.display='none';window.scrollTo({top:0,behavior:'smooth'})">
+    ← BACK
+  </button>
+</section>
+ <footer>Made with ♡ for STAY · Fan-made project, not affiliated with Stray Kids or JYP Entertainment.</footer>
 </div>
 <script>
 const questions = [
