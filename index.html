@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#17121d">
+<title>SKZ WORLD ♡</title>
+<style>
+:root{--bg:#17121d;--panel:#241b2b;--pink:#ff83ad;--pale:#ffe3ee;--red:#9c315d;--muted:#cdb9c9}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 85% 0,#54243f 0,transparent 32%),var(--bg);color:#fff;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+.wrap{width:min(920px,100%);margin:auto;padding:22px 16px 50px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.logo{font-weight:900;letter-spacing:2px;color:var(--pink);font-size:1.2rem}
+.pill{border:1px solid #75435d;border-radius:99px;padding:6px 11px;color:#ffd5e4;font-size:.75rem}
+.hero{margin:28px 0 22px;padding:25px 20px;border-radius:24px;background:linear-gradient(135deg,#762c51,#302039 70%);border:1px solid #96506f;box-shadow:0 14px 40px #09060d66}
+.eyebrow{color:#ffd0e0;font-size:.78rem;letter-spacing:2px}
+h1{font-size:clamp(2rem,8vw,3.4rem);line-height:1.05;margin:9px 0}
+.hero p{color:#f7dce8;max-width:520px;margin-bottom:0}
+h2{font-size:1.15rem;margin:26px 2px 12px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.game{min-height:130px;text-align:left;border:1px solid #55364d;border-radius:18px;padding:16px;color:white;background:linear-gradient(145deg,#32243a,#211925);cursor:pointer}
+.game:active{transform:scale(.98)}
+.game .emoji{font-size:1.7rem}
+.game strong{display:block;margin:8px 0 3px;font-size:1rem}
+.game small{color:var(--muted);line-height:1.4}
+.feature{margin-top:18px;padding:18px;border:1px solid #70415c;border-radius:20px;background:#241b2b}
+button.action{border:0;border-radius:12px;background:var(--pink);color:#321525;font-weight:800;padding:12px 16px;margin-top:12px;cursor:pointer}
+#quiz{display:none}
+#question{font-weight:700;margin:12px 0}
+.answers{display:grid;gap:8px}
+.answer{padding:11px;border:1px solid #65465b;border-radius:12px;background:#302437;color:white;text-align:left;cursor:pointer}
+.answer:disabled{opacity:.75}
+#feedback{min-height:24px;color:#ffd1e1;margin-top:10px}
+footer{text-align:center;color:#a992a4;font-size:.78rem;margin-top:28px}
+@media(min-width:650px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{padding:36px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div class="logo">♡ SKZ WORLD</div><div class="pill">A LITTLE STAY UNIVERSE</div></header>
+<section class="hero">
+<div class="eyebrow">WELCOME, STAY!</div>
+<h1>Your SKZ<br>playground ♡</h1>
+<p>A cute little gaming universe made for STAY. Choose a game and collect points as you play!</p>
+</section>
+<h2>✦ Explore the games</h2>
+<div class="grid">
+<button class="game" onclick="startQuiz()"><span class="emoji">🧠</span><strong>SKZ QUIZ</strong><small>Test your Stray Kids knowledge</small></button>
+<button class="game" onclick="comingSoon('Guess the Member')"><span class="emoji">🔎</span><strong>GUESS THE MEMBER</strong><small>Find the member from clues</small></button>
+<button class="game" onclick="comingSoon('Who Knows SKZ Best?')"><span class="emoji">🏆</span><strong>WHO KNOWS SKZ BEST?</strong><small>Challenge your STAY knowledge</small></button>
+<button class="game" onclick="comingSoon('Your SKZ Life')"><span class="emoji">💗</span><strong>YOUR SKZ LIFE</strong><small>Create your own fan-life story</small></button>
+<button class="game" onclick="comingSoon('Chan’s Room')"><span class="emoji">🐺</span><strong>CHAN'S ROOM</strong><small>A cozy mini-game corner</small></button>
+<button class="game" onclick="comingSoon('Dress Up SKZ')"><span class="emoji">🎀</span><strong>DRESS UP SKZ</strong><small>Make fun outfit combinations</small></button>
+</div>
+<section class="feature" id="quiz">
+<div class="eyebrow">MINI GAME · 01</div>
+<h2>SKZ QUIZ ♡</h2>
+<div id="progress">Question 1 of 3</div>
+<div id="question"></div>
+<div class="answers" id="answers"></div>
+<div id="feedback" aria-live="polite"></div>
+<button class="action" id="next" onclick="nextQuestion()" style="display:none">Next question →</button>
+</section>
+<footer>Made with ♡ for STAY · Fan-made project, not affiliated with Stray Kids or JYP Entertainment.</footer>
+</div>
+<script>
+const questions=[
+ {q:"How many members are in Stray Kids?",a:["6","8","9"],correct:1,why:"Stray Kids has 8 members."},
+ {q:"What is the name of Stray Kids' official fandom?",a:["STAY","MOA","ONCE"],correct:0,why:"The official fandom name is STAY."},
+ {q:"Which member is the leader of Stray Kids?",a:["Lee Know","Bang Chan","Felix"],correct:1,why:"Bang Chan is the leader."}
+];
+let current=0,score=0,locked=false;
+function startQuiz(){document.getElementById('quiz').style.display='block';current=0;score=0;renderQuestion();document.getElementById('quiz').scrollIntoView({behavior:'smooth'});}
+function renderQuestion(){
+ locked=false;const q=questions[current];
+ document.getElementById('progress').textContent=`Question ${current+1} of ${questions.length} · Score ${score}`;
+ document.getElementById('question').textContent=q.q;
+ document.getElementById('feedback').textContent='';
+ document.getElementById('next').style.display='none';
+ const box=document.getElementById('answers');box.innerHTML='';
+ q.a.forEach((answer,i)=>{const b=document.createElement('button');b.className='answer';b.textContent=answer;b.onclick=()=>choose(i);box.appendChild(b);});
+}
+function choose(i){
+ if(locked)return;locked=true;const q=questions[current];
+ if(i===q.correct){score++;document.getElementById('feedback').textContent='Correct! ♡ '+q.why;}
+ else{document.getElementById('feedback').textContent='Not quite! '+q.why;}
+ [...document.querySelectorAll('.answer')].forEach(b=>b.disabled=true);
+ document.getElementById('next').style.display='inline-block';
+ document.getElementById('next').textContent=current===questions.length-1?'See my score ♡':'Next question →';
+}
+function nextQuestion(){
+ if(current<questions.length-1){current++;renderQuestion();}
+ else{document.getElementById('progress').textContent='Quiz complete!';document.getElementById('question').textContent=`You got ${score} out of ${questions.length}!`;document.getElementById('answers').innerHTML='';document.getElementById('feedback').textContent='Thanks for playing, STAY!';document.getElementById('next').textContent='Play again';document.getElementById('next').onclick=startQuiz;}
+}
+function comingSoon(name){alert(name+' is coming soon! ♡');}
+</script>
+</body>
+</html>
