@@ -67,7 +67,7 @@ footer{text-align:center;color:#a992a4;font-size:.78rem;margin-top:28px}
   <h2>WHO KNOWS SKZ BEST? ♡</h2>
   <p>Choose your challenge!</p>
 
-  <button class="action" onclick="startGuess()">
+  <button class="action" onclick="startPhotoGame()">
     📸 PART 01 · GUESS THE MEMBER
   </button>
 
@@ -180,6 +180,352 @@ function openWhoKnows(){
   box.style.display='block';
   box.scrollIntoView({behavior:'smooth'});
                           }
+/* ===== WHO KNOWS SKZ BEST? ===== */
+
+const photoQuestions = [
+  {img:"images/photo01.jpg",answer:"Bang Chan"},
+  {img:"images/photo02.jpg",answer:"Lee Know"},
+  {img:"images/photo03.jpg",answer:"Changbin"},
+  {img:"images/photo04.jpg",answer:"Hyunjin"},
+  {img:"images/photo05.jpg",answer:"Han"},
+  {img:"images/photo06.jpg",answer:"Felix"},
+  {img:"images/photo07.jpg",answer:"Seungmin"},
+  {img:"images/photo08.jpg",answer:"I.N"},
+  {img:"images/photo09.jpg",answer:"Bang Chan"},
+  {img:"images/photo10.jpg",answer:"Lee Know"},
+  {img:"images/photo11.jpg",answer:"Changbin"},
+  {img:"images/photo12.jpg",answer:"Hyunjin"},
+  {img:"images/photo13.jpg",answer:"Han"},
+  {img:"images/photo14.jpg",answer:"Felix"},
+  {img:"images/photo15.jpg",answer:"Seungmin"},
+  {img:"images/photo16.jpg",answer:"I.N"},
+  {img:"images/photo17.jpg",answer:"Bang Chan"},
+  {img:"images/photo18.jpg",answer:"Lee Know"},
+  {img:"images/photo19.jpg",answer:"Changbin"},
+  {img:"images/photo20.jpg",answer:"Hyunjin"},
+  {img:"images/photo21.jpg",answer:"Han"},
+  {img:"images/photo22.jpg",answer:"Felix"},
+  {img:"images/photo23.jpg",answer:"Seungmin"},
+  {img:"images/photo24.jpg",answer:"I.N"}
+];
+
+const skzMembers = [
+  "Bang Chan","Lee Know","Changbin","Hyunjin",
+  "Han","Felix","Seungmin","I.N"
+];
+
+let photoIndex = 0;
+let photoScore = 0;
+let photoLocked = false;
+
+let songIndex = 0;
+let songScore = 0;
+let songLocked = false;
+
+
+/* PHOTO GAME */
+
+function getWhoKnowsPlayArea(){
+  let area = document.getElementById("who-knows-play");
+
+  if(!area){
+    area = document.createElement("section");
+    area.id = "who-knows-play";
+    area.className = "feature";
+    document.getElementById("who-knows").after(area);
+  }
+
+  area.style.display = "block";
+  area.scrollIntoView({behavior:"smooth"});
+
+  return area;
+}
+
+function startPhotoGame(){
+  photoIndex = 0;
+  photoScore = 0;
+  renderPhotoQuestion();
+}
+
+function renderPhotoQuestion(){
+
+  const area = getWhoKnowsPlayArea();
+  const q = photoQuestions[photoIndex];
+
+  photoLocked = false;
+
+  area.innerHTML = `
+    <h2>📸 GUESS THE MEMBER</h2>
+
+    <p>
+      Question ${photoIndex+1} of 24
+      · Score: ${photoScore}
+    </p>
+
+    <img
+      src="${q.img}"
+      alt="Guess the Stray Kids member"
+      style="
+        display:block;
+        width:100%;
+        max-width:440px;
+        max-height:420px;
+        object-fit:contain;
+        border-radius:16px;
+        margin:14px auto;
+        background:#17121d;
+      "
+    >
+
+    <div id="photo-answers"></div>
+
+    <p id="photo-feedback"></p>
+
+    <button
+      class="action"
+      id="photo-next"
+      style="display:none"
+    >
+      Next →
+    </button>
+
+    <button class="action" onclick="backToWhoKnows()">
+      ← Back
+    </button>
+  `;
+
+  const choices = [...skzMembers].sort(
+    ()=>Math.random()-.5
+  );
+
+  const answers = document.getElementById("photo-answers");
+
+  choices.forEach(name=>{
+
+    const b = document.createElement("button");
+
+    b.className = "answer";
+    b.textContent = name;
+
+    b.onclick = ()=>{
+
+      if(photoLocked) return;
+
+      photoLocked = true;
+
+      if(name === q.answer){
+        photoScore++;
+
+        document.getElementById("photo-feedback").textContent =
+          "Correct! ♡";
+
+      }else{
+
+        document.getElementById("photo-feedback").textContent =
+          "The answer is " + q.answer + " ♡";
+
+      }
+
+      [...answers.children].forEach(x=>x.disabled=true);
+
+      const next = document.getElementById("photo-next");
+
+      next.style.display = "inline-block";
+
+      next.textContent =
+        photoIndex === 23 ? "See result ♡" : "Next →";
+    };
+
+    answers.appendChild(b);
+
+  });
+
+  document.getElementById("photo-next").onclick = ()=>{
+
+    if(photoIndex < 23){
+
+      photoIndex++;
+      renderPhotoQuestion();
+
+    }else{
+
+      area.innerHTML = `
+        <h2>📸 Challenge complete!</h2>
+
+        <p>Your score: ${photoScore} / 24</p>
+
+        <button class="action" onclick="startPhotoGame()">
+          Play again
+        </button>
+
+        <button class="action" onclick="backToWhoKnows()">
+          Back
+        </button>
+      `;
+
+    }
+
+  };
+
+}
+
+
+/* SONG GAME */
+
+const songQuestions = [
+  {file:"audio/song01.mp3",answer:"Song 1"},
+  {file:"audio/song02.mp3",answer:"Song 2"},
+  {file:"audio/song03.mp3",answer:"Song 3"},
+  {file:"audio/song04.mp3",answer:"Song 4"},
+  {file:"audio/song05.mp3",answer:"Song 5"},
+  {file:"audio/song06.mp3",answer:"Song 6"},
+  {file:"audio/song07.mp3",answer:"Song 7"},
+  {file:"audio/song08.mp3",answer:"Song 8"},
+  {file:"audio/song09.mp3",answer:"Song 9"},
+  {file:"audio/song10.mp3",answer:"Song 10"}
+];
+
+function startSongGame(){
+
+  songIndex = 0;
+  songScore = 0;
+
+  renderSongQuestion();
+
+}
+
+function renderSongQuestion(){
+
+  const area = getWhoKnowsPlayArea();
+  const q = songQuestions[songIndex];
+
+  songLocked = false;
+
+  const options = [
+    q.answer,
+    ...songQuestions
+      .filter((x,i)=>i!==songIndex)
+      .slice(0,3)
+      .map(x=>x.answer)
+  ].sort(()=>Math.random()-.5);
+
+  area.innerHTML = `
+    <h2>🎧 GUESS THE SONG</h2>
+
+    <p>
+      Question ${songIndex+1} of 10
+      · Score: ${songScore}
+    </p>
+
+    <audio controls preload="none" style="width:100%">
+      <source src="${q.file}">
+    </audio>
+
+    <div id="song-answers"></div>
+
+    <p id="song-feedback"></p>
+
+    <button
+      class="action"
+      id="song-next"
+      style="display:none"
+    >
+      Next →
+    </button>
+
+    <button class="action" onclick="backToWhoKnows()">
+      ← Back
+    </button>
+  `;
+
+  const answers = document.getElementById("song-answers");
+
+  options.forEach(name=>{
+
+    const b = document.createElement("button");
+
+    b.className = "answer";
+    b.textContent = name;
+
+    b.onclick = ()=>{
+
+      if(songLocked) return;
+
+      songLocked = true;
+
+      if(name === q.answer){
+
+        songScore++;
+
+        document.getElementById("song-feedback").textContent =
+          "Correct! ♡";
+
+      }else{
+
+        document.getElementById("song-feedback").textContent =
+          "The answer is " + q.answer + " ♡";
+
+      }
+
+      [...answers.children].forEach(x=>x.disabled=true);
+
+      const next = document.getElementById("song-next");
+
+      next.style.display = "inline-block";
+
+      next.textContent =
+        songIndex === 9 ? "See result ♡" : "Next →";
+
+    };
+
+    answers.appendChild(b);
+
+  });
+
+  document.getElementById("song-next").onclick = ()=>{
+
+    if(songIndex < 9){
+
+      songIndex++;
+      renderSongQuestion();
+
+    }else{
+
+      area.innerHTML = `
+        <h2>🎧 Challenge complete!</h2>
+
+        <p>Your score: ${songScore} / 10</p>
+
+        <button class="action" onclick="startSongGame()">
+          Play again
+        </button>
+
+        <button class="action" onclick="backToWhoKnows()">
+          Back
+        </button>
+      `;
+
+    }
+
+  };
+
+}
+
+
+/* BACK BUTTON */
+
+function backToWhoKnows(){
+
+  const area = document.getElementById("who-knows-play");
+
+  if(area){
+    area.style.display = "none";
+  }
+
+  document.getElementById("who-knows")
+    .scrollIntoView({behavior:"smooth"});
+
+  }
 </script>
 </body>
 </html>
