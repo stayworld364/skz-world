@@ -897,5 +897,16 @@ function backToWhoKnows(){
 
   }
 </script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register(
+      "/skz-world/service-worker.js"
+    );
+  });
+}
+</script>
+  
 </body>
 </html>
