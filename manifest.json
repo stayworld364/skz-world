@@ -1,0 +1,30 @@
+
+{
+  "name": "SKZ World",
+  "short_name": "SKZ World",
+  "description": "A cute gaming universe for STAY",
+  "start_url": "/skz-world/",
+  "scope": "/skz-world/",
+  "display": "standalone",
+  "background_color": "#17121d",
+  "theme_color": "#17121d",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/skz-world/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/skz-world/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/skz-world/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
