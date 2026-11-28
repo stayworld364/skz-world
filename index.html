@@ -195,10 +195,20 @@ text-shadow:0 1px 5px rgba(0,0,0,.6);
     📸 PART 01 · GUESS THE MEMBER
   </button>
 
-  <button class="action" onclick="startSongGame()">
+  <button class="action" onclick="document.getElementById('who-knows').style.display='none';document.getElementById('song-coming').style.display='block'"
     🎧 PART 02 · GUESS THE SONG
   </button>
-
+<section class="feature" id="song-coming" style="display:none;text-align:center;">
+  <h2>COMING SOON ♡</h2>
+  <h3>🎧 GUESS THE SONG</h3>
+  <img src="images/song-coming.jpg"
+       alt="SKZ Song Quiz"
+       style="width:100%;max-width:600px;border-radius:18px;">
+  <p>A new musical challenge is on its way!</p>
+  <button class="action" onclick="document.getElementById('song-coming').style.display='none';document.getElementById('who-knows').style.display='block'">
+    ← BACK
+  </button>
+</section>
   <button class="action" onclick="document.getElementById('who-knows').style.display='none';window.scrollTo({top:0,behavior:'smooth'})">
     ← BACK
   </button>
